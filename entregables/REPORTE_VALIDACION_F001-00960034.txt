@@ -1,0 +1,50 @@
+VALIDACIÓN XML: OK (controles solicitados)
+VALIDACIÓN CDR: OK
+RUC EMISOR: 20511315922
+RUC RECEPTOR: 20600467124
+DOCUMENTO: F001-00960034
+BASE: 1967.97
+IGV: 354.23
+TOTAL: 2322.20
+CUENTA: 6351030000
+CECO: SP-SP51
+PERIODO: 2026.09
+CAMPO DTW PERIODO: PENDIENTE
+RESULTADO: LISTO PARA PRUEBA DTW
+
+ARCHIVO: DTW_F001-00960034_REAL_PLAZA.xlsx
+HOJAS PARA LA PRUEBA: Cabecera Sin RIGV y Detalle Sin RIGV.
+Una cabecera y una línea en la fila 3. Filas 1 y 2 y orden de columnas conservados.
+Las otras cinco hojas permanecen intactas, incluidos sus ejemplos; no forman parte de esta carga.
+
+PENDIENTE: identificar nombre técnico DTW del campo PERIODO para poder cargar 2026.09.
+Se revisaron las siete hojas, comentarios, nombres definidos y metadatos XML del workbook sin encontrar ese campo.
+No se agregó ninguna columna técnica. El periodo consta en la glosa; no está cargado como campo independiente.
+
+PARÁMETROS Y CAMPOS COMPROBADOS:
+- CardCode=P20511315922 (P + RUC emisor).
+- DocDate=20260902; TaxDate=20260901; DocDueDate vacío deliberadamente.
+- DocCurrency y DocRate vacíos para moneda local; moneda fuente XML=PEN.
+- ControlAccount vacío: SAP utilizará la cuenta asociada del maestro del proveedor.
+- Glosa exacta en Comments, JournalMemo e ItemDescription: GASTOS COMUN SP51- 2026.09.
+- UnitPrice=1967.97 numérico: base imponible. TaxCode=IGV_18. IGV esperado=354.23.
+- Base + IGV = total; diferencia S/0.00.
+- AccountCode=6351030000; CostingCode4=SP-SP51; WTLiable=N.
+- U_MSSL_ADT=Y; U_MSSL_AUD=Y; U_MSSL_CGD=019, según la configuración indicada para este caso.
+- U_MSSL_TOP=02, U_MSSL_TBI=A y U_MSSL_CBS=4 son valores parametrizados de la plantilla, cotejados en Cabecera Sin RIGV!T3:V3. No se infieren del XML.
+- FederalTaxID, FatherCard, Rounding, RoundingDiffAmount y ProjectCode vacíos.
+- FolioNumber y U_MSSL_FNC=00960034 como texto; NumAtCard=01-F001-00960034.
+- Indicadores 01, 02 y grupo 019 conservados como texto.
+- CDR ResponseCode=0; DocumentReference/ID=F001-00960034. Emisor, receptor, tipo y fecha del documento coinciden.
+
+OBSERVACIONES DE LA FUENTE:
+- El XML consigna TaxExclusiveAmount=354.23, inconsistente con el neto. La base 1967.97 se toma de TaxSubtotal/TaxableAmount y coincide con LegalMonetaryTotal/LineExtensionAmount y la línea. Ese campo inconsistente no se utiliza para UnitPrice.
+- El XML tiene una declaración xmlns:schemaLocation con una ruta que lxml rechaza como URI. Los datos UBL 2.1 se leyeron con ElementTree y namespaces, sin modificar el original. La validación realizada corresponde a los datos solicitados, no a XSD ni a firmas criptográficas.
+
+CONTROLES DEL ENTREGABLE:
+- Excel reabierto con y sin lectura de resultados de fórmulas; todos los campos contrastados contra el mapeo.
+- La fila nueva contiene valores directos, sin depender de recálculo de Excel.
+- XML internos e integridad ZIP comprobados.
+- Cinco hojas ajenas a esta carga y las demás partes no afectadas conservadas byte a byte; estilos existentes preservados.
+- Hash SHA-256 de la plantilla y los dos XML sin cambios.
+- Prueba en SAP pendiente de ejecución por el usuario; no se realizó conexión ni carga a SAP.
